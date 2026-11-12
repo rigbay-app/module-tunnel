@@ -1,5 +1,8 @@
 # Remote tunnel module
 
+> **Where things are in this repository.** This document was written in the Rigbay repository, where this module lived in `modules/tunnel/` and its notes in `docs/tunnel/`. Here the module is the root of the repository (`src/Rigbay.Tunnel`, `tests/`, `tools/demo`) and this file is `docs/MODULE.md`; the pictures are in `docs/evidence/`. The skill `.claude/skills/tunnel-module/` and `tools\run-elevated.ps1`, `tools\selftest.ps1` named below belong to the Rigbay repository.
+
+
 Rigbay module `tunnel` (group `network`, display name "Remote tunnel"): turns the WireGuard tunnels that are installed on this PC on and off from Rigbay,
 from its page, the tray, a hotkey or `rigbay tunnel on|off <name>`, and shows how each one is doing. It is meant for the case "my PC is reachable from
 outside through my own WireGuard server, and I want a switch for that, like the switch of a VPN app".
@@ -137,10 +140,10 @@ Checked on 2026-11-12 against the documents of the `wireguard-windows` repositor
 
 ## Looking at the page without WireGuard (demo build)
 
-`modules/tunnel/tools/demo/` is the real module on a made-up machine (two tunnels named `example-tunnel` and `example-backup`, a made-up server in the documentation range, moving
+`tools/demo/` is the real module on a made-up machine (two tunnels named `example-tunnel` and `example-backup`, a made-up server in the documentation range, moving
 traffic). It changes nothing. `powershell -ExecutionPolicy Bypass -File modules\tunnel\tools\demo\build-demo.ps1 -OutDir tools\out\modules-tunnel-demo` lays it out as a module folder; run the app with
 `tools\run-elevated.ps1 -Wait -Data <absolute scratch dir> -Modules <absolute path of that OutDir> --shot <absolute png> --allow-multi --script "enable:tunnel;wait:2500;page:tunnel;expand-all;wait:1200"`
-(the elevated app resolves relative paths against its own folder, so give absolute ones). The pictures in `docs/tunnel/evidence/` come from it; each was looked at.
+(the elevated app resolves relative paths against its own folder, so give absolute ones). The pictures in `docs/evidence/` come from it; each was looked at.
 
 - `page-dark.png`: the page in the real app, one tunnel on and connected (handshake age, server, transferred, live rates), options below.
 - `page-light.png`: the same in the light theme, the tunnel that is off.
