@@ -1,6 +1,10 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <!-- In its own repository the ProjectReference points into external/rigbay (tools\extract-module.ps1 rewrites it). Rigbay.Abstractions.dll must NOT end up in the output folder: the host supplies its own copy. -->
+  <!--
+    Standalone module repository. The host contract is the git submodule external/rigbay (pinned to a commit of
+    https://github.com/rigbay-app/rigbay); nothing is published as a package. Clone with the recurse-submodules option.
+    Rigbay.Abstractions.dll must NOT end up in the output folder: the host supplies its own copy.
+  -->
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <RootNamespace>Rigbay.Tunnel</RootNamespace>
@@ -14,7 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\src\Rigbay.Abstractions\Rigbay.Abstractions.csproj">
+    <ProjectReference Include="..\..\external\rigbay\src\Rigbay.Abstractions\Rigbay.Abstractions.csproj">
       <Private>false</Private>
       <ExcludeAssets>runtime</ExcludeAssets>
     </ProjectReference>

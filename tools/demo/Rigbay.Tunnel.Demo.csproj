@@ -14,7 +14,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Rigbay.Tunnel\Rigbay.Tunnel.csproj" />
-    <ProjectReference Include="..\..\..\..\src\Rigbay.Abstractions\Rigbay.Abstractions.csproj">
+    <ProjectReference Include="..\..\external\rigbay\src\Rigbay.Abstractions\Rigbay.Abstractions.csproj">
       <Private>false</Private>
       <ExcludeAssets>runtime</ExcludeAssets>
     </ProjectReference>
