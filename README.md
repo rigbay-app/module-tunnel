@@ -37,7 +37,7 @@ Needs Windows and the .NET SDK (the module targets `net8.0`; the host's language
 git clone --recurse-submodules https://github.com/rigbay-app/module-tunnel.git
 cd module-tunnel
 dotnet build Rigbay.Tunnel.slnx -c Release     # 0 warnings expected
-dotnet test  Rigbay.Tunnel.slnx -c Release     # 117 tests with fakes: no process, no service, no network, no sleeping
+dotnet test  Rigbay.Tunnel.slnx -c Release     # 118 tests with fakes: no process, no service, no network, no sleeping
 dotnet run --project external/rigbay/src/Rigbay.LangCheck -c Release -- src/Rigbay.Tunnel/lang --module tunnel --source src/Rigbay.Tunnel --strict
 ```
 
