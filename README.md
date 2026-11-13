@@ -3,7 +3,9 @@
 Turns the WireGuard tunnels installed on this PC on and off from [Rigbay](https://github.com/rigbay-app/rigbay), from its page, the tray, a hotkey or the
 command line, and shows how each tunnel is doing (running, newest handshake, server, bytes received and sent). Think of the switch of a VPN app, for your own WireGuard server.
 
-Version 0.1.1, pre-release (see [CHANGELOG.md](CHANGELOG.md) and the [releases](https://github.com/rigbay-app/module-tunnel/releases)). MIT. **Needs Rigbay 0.1.2 or newer** (host API 0.1.3): Rigbay 0.1.0 and 0.1.1 do not check that and would offer it, so update Rigbay first.
+Version 0.1.2, pre-release (see [CHANGELOG.md](CHANGELOG.md) and the [releases](https://github.com/rigbay-app/module-tunnel/releases)). MIT. **Needs Rigbay 0.1.5 or newer** (host API 0.1.4): Rigbay 0.1.0 and 0.1.1 do not check that and would offer it, and 0.1.2 and 0.1.3 refuse it, so update Rigbay first.
+
+**For other modules (host API 0.1.4).** `rigbay tunnel list` and `status` are declared read-only. `on <name>` and `off <name>` are declared as a system-setting write (they start or remove the tunnel's Windows service); the preview is "Turn on tunnel <name>" from the argument alone, never from whether the tunnel is on. A run that changed the tunnel reports the opposite verb with the tunnel's stored name as its undo; a run that found it already there reports none, so a plan puts back only what it changed. `on` that turned the tunnel on but got no handshake still ends as a failed verb (as before), so it records no undo: the tunnel stays on and the plan's own failure handling does not turn it off. The handshake age and the rates are also read when another module such as Watch asks for them in the background (at min(15 s, max(2 s, the asked interval)), with the page closed); nothing is read when nobody asks. No tunnel was touched by a plan or another module.
 
 - **Needs the official WireGuard for Windows** (<https://www.wireguard.com/install/>). Nothing of WireGuard is bundled. The module checks that `wireguard.exe` and `wg.exe` are signed by WireGuard LLC before it runs them; otherwise it is "unsupported" and says where to get WireGuard.
 - **It does what the WireGuard app does**: On = `wireguard.exe /installtunnelservice` with the file in WireGuard's own store, Off = `wireguard.exe /uninstalltunnelservice <name>`. A tunnel turned on in either place shows as on in both.
@@ -37,7 +39,7 @@ Needs Windows and the .NET SDK (the module targets `net8.0`; the host's language
 git clone --recurse-submodules https://github.com/rigbay-app/module-tunnel.git
 cd module-tunnel
 dotnet build Rigbay.Tunnel.slnx -c Release     # 0 warnings expected
-dotnet test  Rigbay.Tunnel.slnx -c Release     # 118 tests with fakes: no process, no service, no network, no sleeping
+dotnet test  Rigbay.Tunnel.slnx -c Release     # 137 tests with fakes: no process, no service, no network, no sleeping
 dotnet run --project external/rigbay/src/Rigbay.LangCheck -c Release -- src/Rigbay.Tunnel/lang --module tunnel --source src/Rigbay.Tunnel --strict
 ```
 
@@ -53,7 +55,7 @@ The module changes one thing on the machine: the Windows service of a WireGuard 
 
 ## Verified, and not
 
-Build and tests were run again for 0.1.1 on 2026-11-13 (see the test count below); the new page layout was **not** looked at in the real app for this release and no tunnel was touched. Verified for 0.1.0 on one machine (Windows 11, WireGuard for Windows as installed there, one tunnel with one peer): the tests; the page drawn in the real Rigbay app (dark, light, Vietnamese; pictures in `docs/evidence`); and a live check with the real tunnel through `rigbay tunnel off|on|status` (approval answered by Rigbay's test switch): the service disappeared and came back in 0.3 s, a handshake followed within seconds, the status read the real `wg show` output, and the start type was Automatic again afterwards. The store file of that tunnel was a plain `.conf`.
+Build and tests were run again for 0.1.1 and 0.1.2 on 2026-11-13 (see the test count below); the new page layout was **not** looked at in the real app for this release and no tunnel was touched. Verified for 0.1.0 on one machine (Windows 11, WireGuard for Windows as installed there, one tunnel with one peer): the tests; the page drawn in the real Rigbay app (dark, light, Vietnamese; pictures in `docs/evidence`); and a live check with the real tunnel through `rigbay tunnel off|on|status` (approval answered by Rigbay's test switch): the service disappeared and came back in 0.3 s, a handshake followed within seconds, the status read the real `wg show` output, and the start type was Automatic again afterwards. The store file of that tunnel was a plain `.conf`.
 
 **Not verified:** the page switch, the tray item and the hotkey on a real tunnel; the real approval dialog clicked by a person; a notification banner on screen; a failing start, the 30-second no-handshake path, the automatic turn-off and "Start with Windows" on a real tunnel (fakes only); several peers, IPv6, other WireGuard or Windows versions, a store outside the default folder. The full record is in [docs/MODULE.md](docs/MODULE.md).
 
